@@ -139,14 +139,22 @@ public class GraphPaneUpdater implements Runnable {
 
     private void refButtonClicked(String ref, MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
-            System.out.println("Checkout " + ref);
-            shellInteraction.checkout(ref);
+            checkout(ref);
         }
         if (event.getButton() == MouseButton.SECONDARY) {
-            System.out.println("Copy " + ref);
-            ClipboardContent content = new ClipboardContent();
-            content.putString(ref);
-            Clipboard.getSystemClipboard().setContent(content);
+            copy(ref);
         }
+    }
+
+    private void checkout(String ref) {
+        System.out.println("Checkout " + ref);
+        shellInteraction.checkout(ref);
+    }
+
+    private void copy(String ref) {
+        System.out.println("Copy " + ref);
+        ClipboardContent content = new ClipboardContent();
+        content.putString(ref);
+        Clipboard.getSystemClipboard().setContent(content);
     }
 }
