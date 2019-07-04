@@ -27,7 +27,6 @@ public class Main extends Application {
 
     private ScrollPane buildScrollPane() {
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.getStyleClass().add("scroll-pane");
         scrollPane.setContent(graphPane(scrollPane));
         return scrollPane;
     }
