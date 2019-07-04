@@ -10,4 +10,5 @@ When ran, you may specify a directory to run it on.  By default this is the
 current directory.
 
 Output is similar to `git log --graph --pretty=oneline --all` where ref hashes
-and ref names (branches and tags) can be clicked on to copy to the clipboard.
+and ref names (branches and tags) are buttons.  Left click performs checkout,
+while right click perform copy.
