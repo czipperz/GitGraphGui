@@ -19,7 +19,7 @@ public class Main extends Application {
         String directory = getDirectory();
         primaryStage.setTitle("Git Graph Gui -- " + directory);
 
-        Scene scene = new Scene(buildScrollPane(directory), 600, 600);
+        Scene scene = new Scene(buildScrollPane(directory), 800, 800);
         scene.getStylesheets().add("style.css");
         primaryStage.setScene(scene);
 
