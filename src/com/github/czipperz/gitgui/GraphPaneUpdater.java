@@ -28,6 +28,7 @@ public class GraphPaneUpdater implements Runnable {
     @Override
     public void run() {
         Pane linesPane = new VBox();
+        linesPane.getStyleClass().add("lines");
 
         for (String line : shellInteraction.getGraphLines()) {
             linesPane.getChildren().add(processLine(line));
@@ -45,6 +46,7 @@ public class GraphPaneUpdater implements Runnable {
 
     private Node processLine(String line) {
         Pane linePane = new HBox();
+        linePane.getStyleClass().add("line");
 
         if (line.contains("*")) {
             int index = 0;
@@ -91,7 +93,9 @@ public class GraphPaneUpdater implements Runnable {
     }
 
     private void addLabel(Pane linePane, String prefix) {
-        linePane.getChildren().add(new Label(prefix));
+        Label label = new Label(prefix);
+        label.getStyleClass().add("label");
+        linePane.getChildren().add(label);
     }
 
     private void addRefs(Pane linePane, String refsTotal) {
@@ -132,6 +136,7 @@ public class GraphPaneUpdater implements Runnable {
 
     private void addRefButtonWithText(Pane linePane, String ref, String text) {
         Button button = new Button(text);
+        button.getStyleClass().add("ref");
         button.setPadding(Insets.EMPTY);
         button.setOnMousePressed(event -> refButtonClicked(ref, event));
         linePane.getChildren().add(button);

@@ -17,10 +17,19 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Git Gui");
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(graphPane(scrollPane));
-        primaryStage.setScene(new Scene(scrollPane, 600, 600));
+
+        Scene scene = new Scene(buildScrollPane(), 600, 600);
+        scene.getStylesheets().add("style.css");
+        primaryStage.setScene(scene);
+
         primaryStage.show();
+    }
+
+    private ScrollPane buildScrollPane() {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.getStyleClass().add("scroll-pane");
+        scrollPane.setContent(graphPane(scrollPane));
+        return scrollPane;
     }
 
     private Node graphPane(ScrollPane scrollPane) {

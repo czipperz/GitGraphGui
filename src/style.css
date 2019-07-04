@@ -1,0 +1,24 @@
+* {
+    -fx-background: #2A2E37;
+    -fx-button-primary: #FFFF8D;
+    -fx-button-secondary: #000000;
+    -fx-primarytext: #B2B2B2;
+}
+
+.root, .scroll-pane, .lines, .line, .ref {
+    -fx-background-color: -fx-background;
+}
+
+.label {
+    -fx-text-fill: -fx-primarytext;
+}
+
+.ref {
+    -fx-background-radius: 5px;
+    -fx-text-fill: -fx-button-primary;
+}
+
+.ref:hover {
+    -fx-background-color: -fx-button-primary;
+    -fx-text-fill: -fx-button-secondary;
+}
