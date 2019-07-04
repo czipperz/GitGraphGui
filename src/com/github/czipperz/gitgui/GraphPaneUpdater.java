@@ -92,8 +92,15 @@ public class GraphPaneUpdater implements Runnable {
         throw new RuntimeException("Couldn't find hash in " + prefix);
     }
 
-    private void addLabel(Pane linePane, String prefix) {
-        Label label = new Label(prefix);
+    private void addLabel(Pane linePane, String text) {
+        Label label = new Label(text);
+        label.getStyleClass().add("label");
+        linePane.getChildren().add(label);
+    }
+
+    private void addHeadLabel(Pane linePane) {
+        Label label = new Label("HEAD");
+        label.setId("head");
         label.getStyleClass().add("label");
         linePane.getChildren().add(label);
     }
@@ -108,13 +115,16 @@ public class GraphPaneUpdater implements Runnable {
 
             String refString = refs[i];
             if (refString.equals("HEAD")) {
-                addLabel(linePane, "HEAD");
+                addHeadLabel(linePane);
             } else {
-                for (String prefix : new String[]{"HEAD -> ", "tag: "}) {
-                    if (refString.startsWith(prefix)) {
-                        addLabel(linePane, prefix);
-                        refString = refString.substring(prefix.length());
-                    }
+                if (refString.startsWith("HEAD -> ")) {
+                    addHeadLabel(linePane);
+                    addLabel(linePane, " -> ");
+                    refString = refString.substring("HEAD -> ".length());
+                }
+                if (refString.startsWith("tag: ")) {
+                    addLabel(linePane, "tag: ");
+                    refString = refString.substring("tag: ".length());
                 }
 
                 if (i + 1 < refs.length && refString.equals("origin/" + refs[i + 1])) {

@@ -3,6 +3,7 @@
     -fx-primarytext: #B2B2B2;
     -fx-button-primary: #FF5722;
     -fx-button-primary-hover: #FFC107;
+    -fx-head-color: #03A9F4;
 }
 
 .root, .scroll-pane, .lines, .line, .ref {
@@ -11,6 +12,10 @@
 
 .label {
     -fx-text-fill: -fx-primarytext;
+}
+
+#head {
+    -fx-text-fill: -fx-head-color;
 }
 
 .ref {
