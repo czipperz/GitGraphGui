@@ -1,8 +1,8 @@
 * {
     -fx-background: #2A2E37;
-    -fx-button-primary: #FFFF8D;
-    -fx-button-secondary: #000000;
     -fx-primarytext: #B2B2B2;
+    -fx-button-primary: #FF5722;
+    -fx-button-primary-hover: #FFC107;
 }
 
 .root, .scroll-pane, .lines, .line, .ref {
@@ -14,11 +14,11 @@
 }
 
 .ref {
+    -fx-padding: 0 5px 0 5px;
     -fx-background-radius: 5px;
     -fx-text-fill: -fx-button-primary;
 }
 
 .ref:hover {
-    -fx-background-color: -fx-button-primary;
-    -fx-text-fill: -fx-button-secondary;
+    -fx-text-fill: -fx-button-primary-hover;
 }
