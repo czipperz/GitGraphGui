@@ -27,3 +27,7 @@
 .ref:hover {
     -fx-text-fill: -fx-button-primary-hover;
 }
+
+.button:hover {
+    -fx-cursor: hand;
+}
