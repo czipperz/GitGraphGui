@@ -46,8 +46,8 @@ public class ShellInteraction {
             if (process.waitFor() != 0) {
                 throw new IOException("git failed with exit code " + process.exitValue());
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
         }
     }
 
