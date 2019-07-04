@@ -38,8 +38,10 @@ public class GraphPaneUpdater implements Runnable {
             parent.getChildren().clear();
             parent.getChildren().add(linesPane);
 
+            double hvalue = scrollPane.getHvalue();
             double vvalue = scrollPane.getVvalue();
             scrollPane.layout();
+            scrollPane.setHvalue(hvalue);
             scrollPane.setVvalue(vvalue);
         });
     }
