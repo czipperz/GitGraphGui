@@ -16,24 +16,25 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Git Gui");
+        String directory = getDirectory();
+        primaryStage.setTitle("Git Graph Gui -- " + directory);
 
-        Scene scene = new Scene(buildScrollPane(), 600, 600);
+        Scene scene = new Scene(buildScrollPane(directory), 600, 600);
         scene.getStylesheets().add("style.css");
         primaryStage.setScene(scene);
 
         primaryStage.show();
     }
 
-    private ScrollPane buildScrollPane() {
+    private ScrollPane buildScrollPane(String directory) {
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(graphPane(scrollPane));
+        scrollPane.setContent(graphPane(scrollPane, directory));
         return scrollPane;
     }
 
-    private Node graphPane(ScrollPane scrollPane) {
+    private Node graphPane(ScrollPane scrollPane, String directory) {
         StackPane pane = new StackPane();
-        ShellInteraction shellInteraction = new ShellInteraction(getDirectory());
+        ShellInteraction shellInteraction = new ShellInteraction(directory);
         Runnable updater = new GraphPaneUpdater(scrollPane, pane, shellInteraction);
 
         updateTimer = new Timer();
@@ -53,7 +54,7 @@ public class Main extends Application {
         if (params.size() >= 1) {
             return params.get(0);
         } else {
-            return null;
+            return System.getProperty("user.dir");
         }
     }
 
