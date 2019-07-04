@@ -138,7 +138,6 @@ public class GraphPaneUpdater implements Runnable {
     }
 
     private void refButtonClicked(String ref, MouseEvent event) {
-        System.out.println("Click " + ref);
         if (event.getButton() == MouseButton.PRIMARY) {
             System.out.println("Checkout " + ref);
             shellInteraction.checkout(ref);
