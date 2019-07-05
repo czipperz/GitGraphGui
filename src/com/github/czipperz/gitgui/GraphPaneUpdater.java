@@ -14,10 +14,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GraphPaneUpdater implements Runnable {
     private ScrollPane scrollPane;
     private Pane parent;
     private ShellInteraction shellInteraction;
+    private List<String> previousLines = new ArrayList<>();
 
     public GraphPaneUpdater(ScrollPane scrollPane, Pane parent, ShellInteraction shellInteraction) {
         this.scrollPane = scrollPane;
@@ -27,10 +31,17 @@ public class GraphPaneUpdater implements Runnable {
 
     @Override
     public void run() {
+        List<String> graphLines = shellInteraction.getGraphLines();
+        if (graphLines.equals(previousLines)) {
+            return;
+        }
+
+        previousLines = graphLines;
+
         Pane linesPane = new VBox();
         linesPane.getStyleClass().add("lines");
 
-        for (String line : shellInteraction.getGraphLines()) {
+        for (String line : graphLines) {
             linesPane.getChildren().add(processLine(line));
         }
 

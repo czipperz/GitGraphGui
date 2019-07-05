@@ -44,7 +44,7 @@ public class Main extends Application {
                 updater.run();
             }
         };
-        updateTimer.scheduleAtFixedRate(timerTask, 0, 1000);
+        updateTimer.scheduleAtFixedRate(timerTask, 0, 300);
 
         return pane;
     }
