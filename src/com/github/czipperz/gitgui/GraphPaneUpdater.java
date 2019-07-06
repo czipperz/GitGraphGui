@@ -187,7 +187,6 @@ public class GraphPaneUpdater implements Runnable {
     }
 
     private void checkout(String ref) {
-        System.out.println("Checkout " + ref);
         try {
             shellInteraction.checkout(ref);
         } catch (IOException e) {
@@ -196,7 +195,6 @@ public class GraphPaneUpdater implements Runnable {
     }
 
     private void copy(String ref) {
-        System.out.println("Copy " + ref);
         ClipboardContent content = new ClipboardContent();
         content.putString(ref);
         Clipboard.getSystemClipboard().setContent(content);
