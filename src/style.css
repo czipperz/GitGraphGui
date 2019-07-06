@@ -41,8 +41,6 @@
 }
 
 .ref {
-    -fx-padding: 0 5px 0 5px;
-    -fx-background-radius: 5px;
     -fx-text-fill: -fx-button-primary;
 }
 
