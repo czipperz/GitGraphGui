@@ -3,7 +3,8 @@
     -fx-primarytext: #B2B2B2;
     -fx-button-primary: #FF5722;
     -fx-button-primary-hover: #FFC107;
-    -fx-head-color: #03A9F4;
+    -fx-head-clean: #4CAF50;
+    -fx-head-dirty: #03A9F4;
     -fx-scroll-foreground: -fx-primarytext;
 }
 
@@ -36,8 +37,12 @@
     -fx-text-fill: -fx-primarytext;
 }
 
-#head {
-    -fx-text-fill: -fx-head-color;
+#head.clean {
+    -fx-text-fill: -fx-head-clean;
+}
+
+#head.dirty {
+    -fx-text-fill: -fx-head-dirty;
 }
 
 .ref {

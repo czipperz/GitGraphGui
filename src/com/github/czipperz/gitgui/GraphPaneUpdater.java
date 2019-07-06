@@ -125,6 +125,11 @@ public class GraphPaneUpdater implements Runnable {
     private void addHeadLabel(Pane linePane) {
         Label label = new Label("HEAD");
         label.setId("head");
+        if (shellInteraction.isDirty()) {
+            label.getStyleClass().add("dirty");
+        } else {
+            label.getStyleClass().add("clean");
+        }
         label.getStyleClass().add("label");
         linePane.getChildren().add(label);
     }

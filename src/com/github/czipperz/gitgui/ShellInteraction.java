@@ -14,6 +14,17 @@ public class ShellInteraction {
         this.directory = directory;
     }
 
+    public boolean isDirty() {
+        try {
+            return new ProcessBuilder()
+                    .command(buildCommand("diff", "--quiet"))
+                    .start()
+                    .waitFor() != 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void checkout(String ref) throws IOException {
         runGitCommand(out -> {}, err -> {}, "checkout", ref);
     }
@@ -51,7 +62,7 @@ public class ShellInteraction {
         }
     }
 
-    private String[] buildCommand(String[] commandArguments) {
+    private String[] buildCommand(String... commandArguments) {
         List<String> gitArguments = new ArrayList<>();
         gitArguments.add("git");
         gitArguments.add("--no-pager");
