@@ -159,6 +159,7 @@ public class GraphPaneUpdater implements Runnable {
 
     private void addRefButtonWithText(Pane linePane, String ref, String text) {
         Button button = new Button(text);
+        button.setMnemonicParsing(false);
         button.getStyleClass().add("ref");
         button.setPadding(Insets.EMPTY);
         button.setOnMousePressed(event -> refButtonClicked(ref, event));
