@@ -27,6 +27,7 @@ public class GraphPaneUpdater implements Runnable {
     private Pane parent;
     private ShellInteraction shellInteraction;
     private List<String> previousLines = new ArrayList<>();
+    private boolean isDirty = false;
 
     public GraphPaneUpdater(ScrollPane scrollPane, Pane parent, ShellInteraction shellInteraction) {
         this.scrollPane = scrollPane;
@@ -43,9 +44,12 @@ public class GraphPaneUpdater implements Runnable {
             System.err.println("Error: Cannot get graph lines: " + e.getMessage());
             System.exit(1);
         }
-        if (graphLines.equals(previousLines)) {
+
+        boolean isDirty = shellInteraction.isDirty();
+        if (graphLines.equals(previousLines) && this.isDirty == isDirty) {
             return;
         }
+        this.isDirty = isDirty;
 
         previousLines = graphLines;
 
@@ -125,7 +129,7 @@ public class GraphPaneUpdater implements Runnable {
     private void addHeadLabel(Pane linePane) {
         Label label = new Label("HEAD");
         label.setId("head");
-        if (shellInteraction.isDirty()) {
+        if (isDirty) {
             label.getStyleClass().add("dirty");
         } else {
             label.getStyleClass().add("clean");
