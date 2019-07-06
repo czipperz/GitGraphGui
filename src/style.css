@@ -9,6 +9,7 @@
 
 .root, .scroll-pane, .lines, .line, .ref {
     -fx-background-color: -fx-background;
+    -fx-font-family: "monospace";
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical, .scroll-pane > .corner {
