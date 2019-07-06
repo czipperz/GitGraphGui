@@ -14,17 +14,17 @@ public class ShellInteraction {
         this.directory = directory;
     }
 
-    public void checkout(String ref) {
+    public void checkout(String ref) throws IOException {
         runGitCommand(out -> {}, err -> {}, "checkout", ref);
     }
 
-    public List<String> getGraphLines() {
+    public List<String> getGraphLines() throws IOException {
         List<String> lines = new ArrayList<>();
         runGitCommand(lines::add, System.err::println, "log", "--graph", "--format=%h - [%D] %s", "--abbrev-commit", "--all");
         return lines;
     }
 
-    private void runGitCommand(Consumer<String> outConsumer, Consumer<String> errConsumer, String... commandArguments) {
+    private void runGitCommand(Consumer<String> outConsumer, Consumer<String> errConsumer, String... commandArguments) throws IOException {
         try {
             Process process = new ProcessBuilder().command(buildCommand(commandArguments)).start();
 
@@ -46,8 +46,8 @@ public class ShellInteraction {
             if (process.waitFor() != 0) {
                 throw new IOException("git failed with exit code " + process.exitValue());
             }
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new IOException(e);
         }
     }
 

@@ -2,7 +2,9 @@ package com.github.czipperz.gitgui;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -13,7 +15,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +36,13 @@ public class GraphPaneUpdater implements Runnable {
 
     @Override
     public void run() {
-        List<String> graphLines = shellInteraction.getGraphLines();
+        List<String> graphLines = null;
+        try {
+            graphLines = shellInteraction.getGraphLines();
+        } catch (IOException e) {
+            System.err.println("Error: Cannot get graph lines: " + e.getMessage());
+            System.exit(1);
+        }
         if (graphLines.equals(previousLines)) {
             return;
         }
@@ -177,7 +188,11 @@ public class GraphPaneUpdater implements Runnable {
 
     private void checkout(String ref) {
         System.out.println("Checkout " + ref);
-        shellInteraction.checkout(ref);
+        try {
+            shellInteraction.checkout(ref);
+        } catch (IOException e) {
+            new ErrorPopup("Checkout '" + ref + "' failed").show();
+        }
     }
 
     private void copy(String ref) {
