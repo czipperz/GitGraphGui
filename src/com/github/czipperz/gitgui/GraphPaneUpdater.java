@@ -129,6 +129,7 @@ public class GraphPaneUpdater implements Runnable {
         } else {
             label.getStyleClass().add("clean");
         }
+        label.setOnMousePressed(e -> copy(name));
         label.getStyleClass().add("label");
         linePane.getChildren().add(label);
     }
