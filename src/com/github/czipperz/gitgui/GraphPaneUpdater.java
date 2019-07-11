@@ -2,9 +2,7 @@ package com.github.czipperz.gitgui;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -15,12 +13,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GraphPaneUpdater implements Runnable {
     private ScrollPane scrollPane;
@@ -126,8 +121,8 @@ public class GraphPaneUpdater implements Runnable {
         linePane.getChildren().add(label);
     }
 
-    private void addHeadLabel(Pane linePane) {
-        Label label = new Label("HEAD");
+    private void addHeadLabel(Pane linePane, String name) {
+        Label label = new Label(name);
         label.setId("head");
         if (isDirty) {
             label.getStyleClass().add("dirty");
@@ -138,39 +133,71 @@ public class GraphPaneUpdater implements Runnable {
         linePane.getChildren().add(label);
     }
 
-    private void addRefs(Pane linePane, String refsTotal) {
-        String[] refs = refsTotal.split(", ");
+    private void addRefs(Pane linePane, String refs) {
         addLabel(linePane, "(");
-        for (int i = 0; i < refs.length; i++) {
-            if (i != 0) {
+        boolean first = true;
+        for (Ref ref : parseRefs(refs)) {
+            if (first) {
+                first = false;
+            } else {
                 addLabel(linePane, ", ");
             }
 
-            String refString = refs[i];
-            if (refString.equals("HEAD")) {
-                addHeadLabel(linePane);
-            } else {
-                if (refString.startsWith("HEAD -> ")) {
-                    addHeadLabel(linePane);
-                    addLabel(linePane, " -> ");
-                    refString = refString.substring("HEAD -> ".length());
-                }
-                if (refString.startsWith("tag: ")) {
-                    addLabel(linePane, "tag: ");
-                    refString = refString.substring("tag: ".length());
-                }
-
-                if (i + 1 < refs.length && refString.equals("origin/" + refs[i + 1])) {
-                    addRefButtonWithText(linePane, refString, "origin");
-                    addLabel(linePane, "/");
-                    ++i;
-                    refString = refs[i];
-                }
-
-                addRefButton(linePane, refString);
-            }
+            displayRef(linePane, ref);
         }
         addLabel(linePane, ") ");
+    }
+
+    private Collection<Ref> parseRefs(String refs) {
+        Map<String, Ref> result = new TreeMap<>();
+        for (String refName : refs.split(", ")) {
+            Ref ref = new Ref(refName);
+
+            if (ref.isFilteredOut()) {
+                continue;
+            }
+
+            String remote = "origin/";
+
+            // handle x, remote/x
+            if (ref.name.startsWith(remote)) {
+                Ref nonOriginRef = result.get(ref.name.substring(remote.length()));
+                if (nonOriginRef != null) {
+                    nonOriginRef.isTrackingOrigin = true;
+                    continue;
+                }
+            }
+
+            // handle remote/x, x
+            if (result.containsKey(remote + ref.name)) {
+                result.remove(remote + ref.name);
+                ref.isTrackingOrigin = true;
+            }
+
+            result.put(ref.name, ref);
+        }
+        return result.values();
+    }
+
+    private void displayRef(Pane linePane, Ref ref) {
+        if (ref.name.equals("HEAD")) {
+            addHeadLabel(linePane, ref.name);
+        } else {
+            if (ref.isTag) {
+                addLabel(linePane, "tag: ");
+            }
+
+            if (ref.isTrackingOrigin) {
+                addRefButtonWithText(linePane, "origin/" + ref.name, "origin");
+                addLabel(linePane, "/");
+            }
+
+            if (ref.isHead) {
+                addHeadLabel(linePane, ref.name);
+            } else {
+                addRefButton(linePane, ref.name);
+            }
+        }
     }
 
     private void addRefButton(Pane linePane, String ref) {
